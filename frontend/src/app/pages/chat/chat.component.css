@@ -1,0 +1,427 @@
+:host { display: contents; }
+
+/* ── Shell ── */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* ── Panel header ── */
+.panel-hdr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--b1);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+.panel-hdr-icon {
+  width: 28px; height: 28px;
+  border-radius: var(--rm);
+  background: linear-gradient(135deg, #0078D4 0%, #1570C3 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,120,212,.3);
+}
+.panel-hdr > span:nth-child(2) {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--t1);
+  letter-spacing: -.01em;
+  flex: 1;
+}
+.msg-count {
+  font-size: 10.5px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t3);
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+/* ── Thread ── */
+.thread {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 16px;
+  background: var(--surface);
+}
+.thread-inner {
+  padding: 20px 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Welcome screen ── */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 36px 12px 16px;
+}
+.w-glow { display: none; }
+.w-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, #0078D4 0%, #1570C3 100%);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,120,212,.35);
+}
+.welcome h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--t1);
+  letter-spacing: -.02em;
+  line-height: 1.3;
+}
+.welcome p {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.65;
+  max-width: 280px;
+}
+
+.prompts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.prompt-chip {
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: var(--r);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t2);
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s;
+  line-height: 1.35;
+  text-align: left;
+}
+.prompt-chip:hover {
+  background: var(--a-tint);
+  border-color: #A6CCE8;
+  color: var(--a);
+}
+.prompt-chip-skel {
+  height: 32px;
+  border-radius: var(--r);
+  background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+  background-size: 400% 100%;
+  animation: chipsh 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes chipsh { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ── Turns ── */
+.turn {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--s2);
+}
+.turn:last-of-type { border-bottom: none; }
+
+/* User turn */
+.user-turn { display: flex; justify-content: flex-end; }
+.user-text {
+  font-size: 13.5px;
+  color: #fff;
+  background: #0078D4;
+  border-radius: var(--rl) var(--rl) 3px var(--rl);
+  padding: 10px 14px;
+  max-width: 92%;
+  line-height: 1.6;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0,120,212,.25);
+}
+
+/* Agent turn */
+.agent-turn { display: flex; flex-direction: column; gap: 10px; }
+.agent-header { display: flex; align-items: center; gap: 8px; }
+.agent-badge {
+  width: 22px; height: 22px;
+  background: linear-gradient(135deg, #0078D4 0%, #1570C3 100%);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.agent-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--t1);
+  letter-spacing: -.01em;
+}
+.agent-timing {
+  font-size: 10.5px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t3);
+  margin-left: 2px;
+}
+
+/* Status */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+.status-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid var(--b1);
+  border-top-color: #0078D4;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+.status-text {
+  font-size: 12.5px;
+  color: var(--t3);
+  font-style: italic;
+}
+
+/* Error */
+.agent-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12.5px;
+  color: var(--red);
+  background: var(--red-bg);
+  border: 1px solid #F4ACAC;
+  border-radius: var(--r);
+  padding: 10px 14px;
+}
+
+/* Answer */
+.answer-text {
+  font-size: 13.5px;
+  color: var(--t1);
+  line-height: 1.75;
+}
+
+/* ── SQL accordion ── */
+.sql-accordion { display: flex; flex-direction: column; gap: 0; }
+.sql-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t3);
+  cursor: pointer;
+  width: fit-content;
+  transition: color .1s;
+}
+.sql-toggle:hover { color: #0078D4; }
+.chevron { transition: transform .15s; flex-shrink: 0; }
+.chevron.open { transform: rotate(90deg); }
+
+.sql-pane {
+  margin-top: 8px;
+  border-radius: var(--rm);
+  background: #FAFAF9;
+  border: 1px solid var(--b1);
+  overflow: hidden;
+  animation: drop .14s ease;
+}
+@keyframes drop { from { opacity:0; transform:translateY(-4px) } }
+
+.sql-pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--b1);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--t3);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--s2);
+}
+.sql-lang {
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--t3);
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: 3px;
+  padding: 1px 7px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.code {
+  margin: 0;
+  padding: 14px 16px;
+  font-family: 'Cascadia Code', 'Cascadia Mono', 'Consolas', ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--t1);
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow: auto;
+  max-height: 280px;
+}
+:host ::ng-deep .sk { color: var(--kw); font-weight: 700; }
+:host ::ng-deep .sf { color: var(--fn); }
+:host ::ng-deep .ss { color: var(--str); }
+:host ::ng-deep .sn { color: var(--num); }
+:host ::ng-deep .sc { color: var(--cmt); font-style: italic; }
+
+/* ── Result table ── */
+.result-table-wrap {
+  border: 1px solid var(--b1);
+  border-radius: var(--rm);
+  overflow: hidden;
+  background: var(--surface);
+}
+.rt-header {
+  display: flex;
+  align-items: center;
+  padding: 7px 14px;
+  background: var(--s2);
+  border-bottom: 1px solid var(--b1);
+}
+.rt-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--t2);
+  font-weight: 500;
+}
+.rt-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+.rt-scroll { overflow: auto; max-height: 240px; }
+.rt { width: 100%; border-collapse: collapse; }
+.rt thead { position: sticky; top: 0; z-index: 2; }
+.rt th {
+  background: var(--s2);
+  padding: 7px 14px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--t2);
+  border-bottom: 1px solid var(--b1);
+  white-space: nowrap;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.rt td {
+  padding: 7px 14px;
+  font-size: 12px;
+  font-family: 'Cascadia Code', 'Consolas', ui-monospace, monospace;
+  color: var(--t1);
+  border-bottom: 1px solid var(--s2);
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rt tr:last-child td { border-bottom: none; }
+.rt tr:hover td { background: var(--s2); }
+.rt td.nil { color: var(--b2); font-style: italic; }
+.no-rows { font-size: 12.5px; color: var(--t3); font-style: italic; }
+
+/* ── Streaming cursor ── */
+.cursor {
+  display: inline-block;
+  width: 2px; height: 1em;
+  background: #0078D4;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  animation: blink 0.9s ease-in-out infinite;
+}
+.cursor.hidden { display: none; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Input dock ── */
+.input-dock {
+  flex-shrink: 0;
+  padding: 12px 14px 14px;
+  background: var(--surface);
+  border-top: 1px solid var(--b1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.input-card {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: var(--rl);
+  padding: 10px 10px 10px 14px;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.input-card:focus-within,
+.input-card.focused {
+  border-color: #0078D4;
+  background: var(--surface);
+  box-shadow: 0 0 0 2px rgba(0,120,212,.2);
+}
+.composer {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t1);
+  resize: none;
+  line-height: 1.55;
+  min-height: 22px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.composer::placeholder { color: var(--t3); }
+.composer:disabled { opacity: .4; cursor: not-allowed; }
+.send {
+  width: 32px; height: 32px;
+  background: #0078D4;
+  border: none;
+  border-radius: var(--rm);
+  color: #fff;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .12s, transform .1s;
+}
+.send:hover:not(:disabled) { background: var(--a-dark); transform: scale(1.05); }
+.send:active:not(:disabled) { transform: scale(.95); }
+.send:disabled { opacity: .35; cursor: not-allowed; }
+.send.busy { background: var(--b2); }
+.rotate { animation: spin 1s linear infinite; }
+.hint {
+  font-size: 10.5px;
+  color: var(--t3);
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+}

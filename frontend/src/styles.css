@@ -1,0 +1,80 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Microsoft Fluent 2 Brand ── */
+  --a:       #0078D4;
+  --a-dark:  #106EBE;
+  --a-darker:#005A9E;
+  --a-lt:    #2899F5;
+  --a-tint:  #DEECF9;
+  --a-dim:   rgba(0,120,212,.1);
+  --a-ring:  rgba(0,120,212,.28);
+
+  /* ── Neutral backgrounds (warm Fluent neutrals) ── */
+  --bg:      #FAF9F8;
+  --surface: #FFFFFF;
+  --s2:      #F3F2F1;
+  --s3:      #EDEBE9;
+  --s4:      #E1DFDD;
+
+  /* ── Borders ── */
+  --b1: #E1DFDD;
+  --b2: #C8C6C4;
+  --b3: #979593;
+
+  /* ── Dark sidebar ── */
+  --sb:        #1F1F1F;
+  --sb-hover:  rgba(255,255,255,.075);
+  --sb-active: rgba(0,120,212,.18);
+  --sb-border: #333333;
+  --sb-t1:     #D4D4D4;
+  --sb-t2:     #9D9D9D;
+  --sb-t3:     #5A5A5A;
+
+  /* ── Text ── */
+  --t1: #242424;
+  --t2: #616161;
+  --t3: #929292;
+
+  /* ── Semantic ── */
+  --green:    #107C10;
+  --red:      #A4262C;
+  --amber:    #C19C00;
+  --green-bg: #DFF6DD;
+  --red-bg:   #FDE7E9;
+
+  /* ── SQL tokens (VS Code Light+ theme) ── */
+  --kw:  #0000FF;
+  --fn:  #795E26;
+  --str: #A31515;
+  --num: #09885A;
+  --cmt: #008000;
+
+  /* ── Geometry ── */
+  --r:   4px;
+  --rm:  6px;
+  --rl:  8px;
+  --rxl: 12px;
+
+  /* ── Fluent Elevation ── */
+  --sh:    0 2px 4px rgba(0,0,0,.14), 0 0 2px rgba(0,0,0,.12);
+  --sh-lg: 0 8px 16px rgba(0,0,0,.14), 0 0 2px rgba(0,0,0,.12);
+  --sh-xl: 0 32px 64px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--t1);
+  font-family: 'Segoe UI Variable Display', 'Segoe UI Variable', 'Segoe UI',
+               'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--b2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--b3); }

@@ -1,0 +1,133 @@
+<div class="shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+
+    <!-- Workspace header -->
+    <div class="ws-header">
+      <div class="ws-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M3 5v4c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+          <path d="M3 9v4c0 1.66 4 3 9 3s9-1.34 9-3V9"/>
+          <path d="M3 13v3c0 1.66 4 3 9 3s9-1.34 9-3v-3"/>
+        </svg>
+      </div>
+      <div class="ws-info">
+        <span class="ws-name">DataTalk</span>
+        <span class="ws-desc">Northwind</span>
+      </div>
+      <button class="ws-action">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Jump to -->
+    <div class="jump-search">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <span>Jump to</span>
+      <kbd>⌘K</kbd>
+    </div>
+
+    <!-- Nav -->
+    <nav class="sb-nav">
+      <a class="nav-item" routerLink="/explorer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span>Overview</span>
+      </a>
+      <a class="nav-item" routerLink="/explorer" routerLinkActive="active">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M3 9h18M3 15h18M9 3v18"/>
+        </svg>
+        <span>Explorer</span>
+      </a>
+    </nav>
+
+    <!-- Divider -->
+    <div class="sb-divider"></div>
+
+    <!-- Tables section -->
+    <div class="sb-section">
+      <div class="sb-section-hdr">
+        <span>Tables</span>
+        <span class="sb-count">{{ filtered.length }}</span>
+      </div>
+
+      @if (explorerOpen) {
+        <div class="sb-table-section">
+
+          <div class="sb-search">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input [(ngModel)]="tableSearch" (ngModelChange)="filterTables()"
+                   placeholder="Search tables…" autocomplete="off" spellcheck="false"/>
+          </div>
+
+          <div class="sb-tables">
+            @if (loadingTables) {
+              @for (i of [1,2,3,4,5,6]; track i) {
+                <div class="sb-skel" [style.width]="(55 + i * 7) % 45 + 55 + '%'"></div>
+              }
+            }
+            @for (t of filtered; track t.name) {
+              <a class="sb-trow" routerLink="/explorer/{{ t.name }}" routerLinkActive="active">
+                <span class="sb-trow-icon">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M3 15h18M9 3v18"/>
+                  </svg>
+                </span>
+                <span class="sb-trow-name">{{ t.name }}</span>
+              </a>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+
+  </aside>
+
+  <!-- ── Explorer content ── -->
+  <main class="content">
+    <router-outlet />
+  </main>
+
+</div>
+
+<!-- ── Floating chat widget ── -->
+<div class="chat-widget">
+
+  <!-- Expanded panel -->
+  @if (chatOpen) {
+    <div class="chat-panel">
+      <app-chat />
+    </div>
+  }
+
+  <!-- Toggle bar -->
+  <button class="chat-toggle" (click)="chatOpen = !chatOpen">
+    @if (!chatOpen) {
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+      <span>Copilot</span>
+    } @else {
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+      <span>Copilot</span>
+      <span class="chat-toggle-hint">close</span>
+    }
+  </button>
+
+</div>

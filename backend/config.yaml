@@ -1,0 +1,20 @@
+version: "1.1"
+
+llm:
+  provider: "anthropic"
+  api_key: ""                        # set via ANTHROPIC_API_KEY in .env
+  model: "claude-haiku-4-5-20251001"
+  temperature: 0.0
+  timeout_seconds: 60
+  max_retries: 3
+  embedding_model: "BAAI/bge-small-en-v1.5"
+
+postgres:
+  url: ""                            # set via DATABASE_URL in .env
+
+security:
+  read_only: true
+  allowed_schemas: ["public"]
+  denied_tables: []
+  max_rows: 200
+  max_query_chars: 8000

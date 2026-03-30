@@ -1,0 +1,293 @@
+:host { display: contents; }
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* ── Empty state ── */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--surface);
+}
+.empty-icon {
+  width: 64px; height: 64px;
+  background: var(--a-tint);
+  border: 1px solid #A6CCE8;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.empty-icon svg { color: #0078D4; }
+.empty-state h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--t1);
+  letter-spacing: -.015em;
+}
+.empty-state p {
+  font-size: 13px;
+  color: var(--t3);
+  text-align: center;
+  max-width: 300px;
+  line-height: 1.65;
+}
+
+/* ── Page header (command bar) ── */
+.page-hdr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--b1);
+  flex-shrink: 0;
+  background: var(--surface);
+}
+.page-hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.page-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t1);
+  letter-spacing: -.02em;
+  white-space: nowrap;
+  margin: 0;
+}
+.page-badge {
+  font-size: 11px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t2);
+  background: var(--s2);
+  border: 1px solid var(--b1);
+  border-radius: 999px;
+  padding: 2px 9px;
+  flex-shrink: 0;
+}
+.page-badge.muted { color: var(--t3); }
+.badge-skel {
+  height: 22px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+.w60 { width: 60px; } .w40 { width: 40px; }
+.page-hdr-right { display: flex; align-items: center; }
+.hdr-btn {
+  display: flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: var(--r);
+  font-size: 12.5px;
+  color: var(--t2);
+  cursor: pointer;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  transition: background .1s, color .1s, border-color .1s;
+}
+.hdr-btn:hover { background: var(--s2); color: var(--t1); border-color: var(--b2); }
+
+/* ── Filter bar (toolbar) ── */
+.filter-bar {
+  display: flex; align-items: center; gap: 6px;
+  height: 42px; padding: 0 20px;
+  border-bottom: 1px solid var(--b1);
+  flex-shrink: 0;
+  background: var(--s2);
+}
+.view-btn {
+  display: flex; align-items: center; gap: 6px;
+  height: 26px; padding: 0 10px;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: var(--r);
+  font-size: 12px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .1s, color .1s;
+}
+.view-btn:hover { background: var(--s3); color: var(--t1); }
+.filter-sep { width: 1px; height: 16px; background: var(--b1); flex-shrink: 0; }
+.filter-pills { display: flex; align-items: center; gap: 5px; flex: 1; }
+.filter-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 22px; padding: 0 10px;
+  background: var(--a-tint);
+  border: 1px solid #A6CCE8;
+  border-radius: 999px;
+  font-size: 11.5px;
+}
+.pill-col { font-weight: 600; color: #0053A0; }
+.pill-op { color: #60AFEC; }
+.toolbar-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.search-wrap {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: var(--r);
+  padding: 0 8px; height: 26px;
+  transition: border-color .12s, box-shadow .12s;
+}
+.search-wrap:focus-within {
+  border-color: #0078D4;
+  box-shadow: 0 0 0 2px rgba(0,120,212,.2);
+}
+.search-wrap svg { color: var(--t3); flex-shrink: 0; }
+.search-input {
+  width: 150px; background: none; border: none; outline: none;
+  font-size: 12.5px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t1);
+}
+.search-input::placeholder { color: var(--t3); }
+.search-input:disabled { opacity: .4; }
+.clear-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--t3); font-size: 11px;
+  width: 16px; height: 16px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: background .1s, color .1s;
+}
+.clear-btn:hover { background: var(--s3); color: var(--t2); }
+.result-count {
+  font-size: 11px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t3);
+  white-space: nowrap;
+}
+.loading-pill { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--t3); }
+.loading-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #0078D4;
+  animation: lpulse .8s ease-in-out infinite;
+}
+@keyframes lpulse { 0%,100%{opacity:.25} 50%{opacity:1} }
+
+/* ── Table outer ── */
+.table-outer { flex: 1; overflow: auto; }
+
+/* Override Bootstrap table to match Fluent design */
+.table { font-size: 13px; margin: 0; }
+.table th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--t2);
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--b1) !important;
+  background: var(--s2);
+}
+.table td {
+  padding: 8px 16px;
+  vertical-align: middle;
+  color: var(--t1);
+  font-size: 13px;
+  white-space: nowrap;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--s3) !important;
+}
+.table tbody tr:last-child td { border-bottom: none !important; }
+.table-hover tbody tr:hover td { background-color: var(--a-dim) !important; }
+
+/* Sticky first column */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface);
+}
+.table thead .sticky-col {
+  background: var(--s2);
+  z-index: 2;
+}
+
+/* Skeleton */
+.skel-cell {
+  height: 13px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--s2) 25%, var(--s3) 50%, var(--s2) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* Avatar */
+.cell-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 600; color: #fff;
+  flex-shrink: 0;
+}
+
+/* Badge */
+.cell-badge {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 10px;
+  border-radius: var(--r);
+  border: 1px solid transparent;
+  font-size: 12px; font-weight: 500; white-space: nowrap;
+}
+
+/* Binary */
+.binary-badge {
+  display: inline-flex; align-items: center;
+  height: 20px; padding: 0 8px; border-radius: 3px;
+  background: var(--s2); border: 1px solid var(--b1);
+  font-size: 10.5px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t3);
+}
+
+/* ── Pagination ── */
+.pager {
+  display: flex; align-items: center; gap: 4px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--b1);
+  flex-shrink: 0;
+  background: var(--s2);
+}
+.pg-btn {
+  height: 28px; min-width: 28px; padding: 0 8px;
+  background: var(--surface);
+  border: 1px solid var(--b1);
+  border-radius: var(--r);
+  font-size: 13px;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  color: var(--t2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .1s, border-color .1s, color .1s;
+}
+.pg-btn:hover:not(:disabled) { background: var(--s3); border-color: var(--b2); color: var(--t1); }
+.pg-btn:disabled { opacity: .35; cursor: not-allowed; }
+.pg-btn.cur {
+  background: #0078D4;
+  border-color: #0078D4;
+  color: #fff;
+  font-weight: 600;
+}
+.pg-info {
+  font-size: 11.5px;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  color: var(--t3);
+  margin-left: 6px;
+}

@@ -1,0 +1,172 @@
+<div class="page">
+
+  <!-- ── No table selected ── -->
+  @if (!tableName) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0078D4" stroke-width="1.3" stroke-linecap="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M3 9h18M3 15h18M9 3v18"/>
+        </svg>
+      </div>
+      <h2>Select a table</h2>
+      <p>Choose a table from the sidebar to browse and query its data.</p>
+    </div>
+  }
+
+  @if (tableName) {
+
+    <!-- ── Page header ── -->
+    <div class="page-hdr">
+      <div class="page-hdr-left">
+        <h1 class="page-title">{{ tableName }}</h1>
+      </div>
+      <div class="page-hdr-right">
+        <button class="hdr-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Filter bar ── -->
+    <div class="filter-bar">
+      <button class="view-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Default view
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+      <div class="filter-sep"></div>
+
+      <div class="toolbar-right">
+        <div class="search-wrap">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input class="search-input" [(ngModel)]="search"
+                 [disabled]="loading"
+                 placeholder="Search…" autocomplete="off" spellcheck="false"/>
+          @if (search) {
+            <button class="clear-btn" (click)="search = ''">✕</button>
+          }
+        </div>
+        @if (tableData && !loading) {
+          <span class="result-count">{{ filteredRows.length.toLocaleString() }} of {{ tableData.total.toLocaleString() }}</span>
+        }
+        @if (loading) {
+          <span class="loading-pill"><span class="loading-dot"></span> Loading…</span>
+        }
+      </div>
+    </div>
+
+    <!-- ── Table ── -->
+    <div class="table-outer">
+
+      @if (error) {
+        <div class="alert alert-danger m-3" role="alert">{{ error }}</div>
+      }
+
+      <!-- Skeleton -->
+      @if (loading) {
+        <div class="table-responsive">
+          <table class="table table-hover table-borderless align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                @for (c of skelCols; track c) {
+                  <th><div class="skel-cell"></div></th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of skelRows; track r) {
+                <tr>
+                  @for (c of skelCols; track c) {
+                    <td><div class="skel-cell" [style.width.%]="40 + (r * c * 7) % 45"></div></td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      <!-- Real data -->
+      @if (tableData && !loading) {
+        <div class="table-responsive">
+          <table class="table table-hover table-borderless align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                @for (col of tableData.columns; track col.name; let fi = $first) {
+                  @if (!isIdCol(col.name)) {
+                    <th [class.sticky-col]="fi">{{ col.name }}</th>
+                  }
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of filteredRows; track $index) {
+                <tr>
+                  @for (col of tableData.columns; track col.name; let fi = $first) {
+                    @if (!isIdCol(col.name)) {
+                      @if (isNull(row[col.name])) {
+                        <td [class.sticky-col]="fi" class="text-muted fst-italic">—</td>
+                      } @else if (col.name === 'photo' || cellValue(row[col.name]) === '[binary]') {
+                        <td [class.sticky-col]="fi"><span class="binary-badge">[binary]</span></td>
+                      } @else if (isNameCol(col.name)) {
+                        <td [class.sticky-col]="fi">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="cell-avatar" [ngStyle]="getAvatarStyle(cellValue(row[col.name]))">
+                              {{ getInitials(cellValue(row[col.name])) }}
+                            </span>
+                            <span>{{ cellValue(row[col.name]) }}</span>
+                          </div>
+                        </td>
+                      } @else if (isDateStr(row[col.name])) {
+                        <td [class.sticky-col]="fi" class="text-secondary">{{ formatDate(cellValue(row[col.name])) }}</td>
+                      } @else if (shouldBadge(row[col.name], col.name)) {
+                        <td [class.sticky-col]="fi">
+                          <span class="cell-badge" [ngStyle]="getBadgeStyle(cellValue(row[col.name]))">
+                            {{ cellValue(row[col.name]) }}
+                          </span>
+                        </td>
+                      } @else {
+                        <td [class.sticky-col]="fi">{{ cellValue(row[col.name]) }}</td>
+                      }
+                    }
+                  }
+                </tr>
+              } @empty {
+                <tr>
+                  <td [attr.colspan]="tableData.columns.length" class="text-center text-muted fst-italic py-4">
+                    No rows match "{{ search }}"
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+
+    <!-- ── Pagination ── -->
+    @if (tableData && tableData.total_pages > 1 && !loading) {
+      <div class="pager">
+        <button class="pg-btn" (click)="loadPage(tableData.page - 1)" [disabled]="tableData.page <= 1">‹</button>
+        @for (p of pages; track p) {
+          <button class="pg-btn" [class.cur]="p === tableData.page" (click)="loadPage(p)">{{ p }}</button>
+        }
+        <button class="pg-btn" (click)="loadPage(tableData.page + 1)" [disabled]="tableData.page >= tableData.total_pages">›</button>
+        <span class="pg-info">Page {{ tableData.page }} of {{ tableData.total_pages }}</span>
+      </div>
+    }
+
+  }
+
+</div>
